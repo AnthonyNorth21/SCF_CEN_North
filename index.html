@@ -1,32 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desh Bagley Draw & Chat PWA</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>AnthonyDrawChat</title>
+
+    <!-- Manifest -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#317EFB"/>
-    <link rel="apple-touch-icon" href="DeshCapstone.png">
-    <link rel="stylesheet" href="styles.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- iOS PWA Fix -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="AnthonyDrawChat">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
 </head>
+
 <body>
-    <div class="app-container">
-        <div class="drawing-section">
+
+    <header class="app-header">
+        <h1>AnthonyDrawChat</h1>
+        <div id="connectionStatus" class="status connected">● Online</div>
+    </header>
+
+    <main class="container">
+
+        <!-- Drawing Area -->
+        <section class="draw-section">
             <canvas id="drawingCanvas"></canvas>
-            <div class="drawing-controls">
+
+            <!-- Tools -->
+            <div class="tools">
                 <input type="color" id="colorPicker" value="#000000">
-                <button id="clearCanvas">Clear the Canvas</button>
-                <button id="downloadDrawing">Download Drawing</button>
+                <input type="range" id="brushSize" min="1" max="20" value="5">
+                <button id="clearCanvas">Clear</button>
+                <button id="downloadDrawing">Download</button>
             </div>
-        </div>
-        <div class="messaging-section">
-            <div id="messageHistory"></div>
-            <div class="message-input">
+        </section>
+
+        <!-- Chat Section -->
+        <section class="chat-section">
+
+            <div id="messageHistory" class="chat-box">
+                <div class="message assistant">Hello! How can I assist you today?</div>
+            </div>
+
+            <div class="chat-input">
                 <textarea id="messageInput" placeholder="Type your message..."></textarea>
                 <button id="sendMessage">Send</button>
             </div>
-        </div>
-    </div>
+        </section>
+
+    </main>
+
+    <!-- Main Script -->
     <script src="app.js"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker
+                    .register("/service-worker.js")
+                    .then(reg => console.log("Service Worker registered:", reg))
+                    .catch(err => console.error("Service Worker registration failed:", err));
+            });
+        }
+    </script>
+
 </body>
 </html>
